@@ -1,0 +1,55 @@
+{% extends 'default.html' %}
+{% block title %}
+Объявления
+{% endblock title %}
+{% block content %}
+    <style>
+        .ad-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .ad-author {
+            font-size: 14px;
+            color: #888;
+        }
+        .ad-description img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            max-height: 200px;
+        }
+    </style>
+    <main>
+    <div class="container mt-4">
+        {% if ads %}
+        <h2>Все объявления</h2>
+        <p>Пользователь: {{ request.user.username }}</p>
+        <div class="row">
+                {% for ad in ads %}
+                    <div class="col-md-12 mb-4">
+                        <div class="ad-container">
+                            <h5 class="card-title">{{ ad.title }}</h5>
+                            <p class="ad-author">Автор: {{ ad.author }}</p>
+                            <p class="ad-category">Категория: {{ ad.category }}</p>
+                            <div class="ad-description">{{ ad.description }}</div>
+                            <a href="{% url 'board:ad_detail' ad.id %}" class="btn btn-primary btn-sm">Подробнее</a>
+                            {% if user.is_authenticated and ad.author == user %}
+                                <a href="{% url 'board:ad_update' ad.id %}" class="btn btn-success btn-sm">Изменить</a>
+                                <a href="{% url 'board:ad_delete' ad.id %}" class="btn btn-danger btn-sm">Удалить</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-md-12">
+                    <h2>Объявлений нет</h2>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</main>
+
+ {% include 'part/paginator.html' %}
+{% endblock content %}

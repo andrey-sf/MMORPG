@@ -1,0 +1,25 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Откликнуться на объявление
+{% endblock title %}
+
+{% block content %}
+<main>
+    <section class="container my-5">
+        <div class="ad-details">
+            <h2 class="ad-title">{{ ad.title }}</h2>
+            <p class="ad-author">Автор: {{ ad.author }}</p>
+            <p class="ad-created-at">Дата создания: {{ ad.created_at|date:'d M Y года в G:i' }}</p>
+            <p class="ad-description">{{ ad.description|safe }}</p>
+
+            <h3>Откликнуться на объявление</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Откликнуться</button>
+            </form>
+        </div>
+    </section>
+</main>
+{% endblock content %}

@@ -1,0 +1,38 @@
+{% extends 'default.html' %}
+{% block title %}
+Объявления
+{% endblock title %}
+{% block content %}
+<h1>Страница авторизованного пользователя {{ request.user.username }}</h1>
+<hr>
+<h2>Отклики на ваши объявления</h2>
+<ul class="list-group">
+    {% for response in responses %}
+        <li class="list-group-item">
+            <h3><a href="{% url 'board:ad_detail' response.responseAd.id %}">{{ response.responseAd.title }}</a></h3>
+            <p>{{ response.responseText|truncatechars:50 }}</p>
+            <p>Автор отклика: {{ response.responseUser }}</p>
+            {% if not response.is_accepted %}
+                <a href="{% url 'board:accept_response' response.id %}" class="btn btn-success">Принять отклик</a>
+            {% else %}
+            <p>Отклик принят</p>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li class="list-group-item">Пока нет откликов на ваши объявления</li>
+    {% endfor %}
+</ul>
+<h2>Мои объявления</h2>
+<ul class="list-group">
+    {% for ad in request.user.ad_set.all %}
+        <li class="list-group-item">
+            <h3><a href="{% url 'board:ad_detail' ad.id %}">{{ ad.title }}</a></h3>
+            <p>{{ ad.description|truncatechars:50|safe }}</p>
+            <a href="{% url 'board:ad_update' ad.id %}" class="btn btn-success">Изменить объявление</a>
+            <a href="{% url 'board:ad_delete' ad.id %}" class="btn btn-danger">Удалить объявление</a>
+        </li>
+    {% empty %}
+        <li class="list-group-item">Пока нет объявлений</li>
+    {% endfor %}
+</ul>
+{% endblock content %}

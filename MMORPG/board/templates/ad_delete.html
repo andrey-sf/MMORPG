@@ -1,0 +1,30 @@
+{% extends 'default.html' %}
+
+
+{% block title %}
+Удаление объявления
+{% endblock title %}
+
+{% block content %}
+
+<h3>Удалить этот пост?</h3>
+<div class="card">
+ <div class="card-header">
+   <h3>
+     {{ ad.title }}
+   </h3>
+   <div>
+    Дата создания: <span class="badge bg-info">{{ ad.created_at|date:'d M Y года в G:i' }}</span>
+     Автор: <span class="badge bg-info">{{ ad.author }}</span>
+   </div>
+ </div>
+ <div class="card-body">
+   {{ ad.description|safe  }}
+ </div>
+</div>
+<form method="POST" onsubmit="return confirm('Вы уверены, что хотите удалить элемент?');" class="my-3">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Удалить</button>
+</form>
+
+{% endblock content %}

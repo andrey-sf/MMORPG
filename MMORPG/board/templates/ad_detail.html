@@ -1,0 +1,69 @@
+{% extends 'default.html' %}
+{% block title %}
+Объявления
+{% endblock title %}
+{% block content %}
+<style>
+    /* Ваши пользовательские стили здесь */
+    .ad-details {
+        padding: 20px;
+    }
+    .ad-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .ad-description {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+    .ad-author {
+        font-size: 14px;
+        color: #888;
+    }
+    .response {
+        margin-top: 20px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        background-color: #f9f9f9;
+        margin-bottom: 10px;
+    }
+    .response-text {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    .response-user {
+        font-size: 14px;
+        color: #555;
+    }
+</style>
+<main>
+    <section class="container my-5">
+        <div class="ad-details">
+            <h2 class="ad-title">{{ ad.title }}</h2>
+            <p class="ad-author">Автор: {{ ad.author }}</p>
+            <p class="ad-author">Дата создания: {{ ad.created_at|date:'d M Y года в G:i' }}</p>
+            <p class="ad-description">{{ ad.description|safe }}</p>
+            <!-- Здесь можно добавить изображения, видео и другой контент -->
+            <div class="text-center">
+                    <p>Откликнулись: {{ ad.response_set.count }} раз(а)</p>
+                {% if ad %}
+                    <div class="responses">
+                        {% for response in ad.response_set.all %}
+                            <div class="response">
+                                <p class="response-text">{{ response.responseText }}</p>
+                                <p class="response-user">Пользователь: {{ response.responseUser.username }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>Пока нет откликов</p>
+                {% endif %}
+                {% if not user_has_response and not ad.author == request.user %}
+                <a href="{% url 'board:ad_respond' ad.id %}" class="btn btn-primary">Откликнуться</a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock content %}

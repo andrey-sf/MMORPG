@@ -1,0 +1,20 @@
+<header class="bg-dark">
+        <div class="container">
+            <h1 class="text-white">MMORPG Board</h1>
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a class="nav-link text-white" href="/">Главная</a></li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'board:ad_create' %}">Создать объявление</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="/my_ads/">Мои объявления</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="/inbox/">Входящие отклики</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'cabinet' %}">Профиль</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="/accounts/logout/">Выход</a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link text-white" href="/accounts/login">Войти</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="/accounts/signup/">Регистрация</a></li>
+                     {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
