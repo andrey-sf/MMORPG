@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Еженедельная рассылка объявлений</title>
+</head>
+<body>
+    <h1>Привет, {{ user.username }}!</h1>
+    <p>Вот новые объявления, опубликованные за последнюю неделю:</p>
+    <ul>
+        {% for ad in ads %}
+            <li>
+                <strong><a href="{{ ad.get_absolute_url }}">{{ ad.title }}</a></strong><br>
+                {{ ad.description|truncatechars:200 }}
+            </li>
+        {% empty %}
+            <li>Нет новых объявлений за неделю.</li>
+        {% endfor %}
+    </ul>
+    <p>Вы можете посмотреть все объявления по <a href="{{ link }}">ссылке</a>.</p>
+    <p>С уважением,<br>Ваш сайт объявлений</p>
+</body>
+</html>

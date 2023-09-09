@@ -1,6 +1,4 @@
-import django_filters
 from django import forms
-
 from .models import Ad, Response
 from tinymce.widgets import TinyMCE
 
@@ -38,17 +36,13 @@ class ResponseForm(forms.ModelForm):
         }
 
 
-class ResponseFilter(django_filters.FilterSet):
-    responseAd = django_filters.ModelChoiceFilter(
-        queryset=Ad.objects.all(),
-        label='Название объявления',
-    )
-
-    is_accepted = django_filters.BooleanFilter(
-        field_name='is_accepted',
-        label='Принят отклик ?',
-    )
-
+class ResponseFormFilter(forms.ModelForm):
     class Meta:
         model = Response
-        fields = ['responseAd', 'is_accepted']
+        fields = ['responseText', 'responseAd', 'is_accepted']
+
+    def __init__(self, *args, **kwargs):
+        super(ResponseForm, self).__init__(*args, **kwargs)
+        self.fields['responseAd'].label = 'Выберите объявление'
+        self.fields['is_accepted'].label = 'Принят отклик?'
+        self.fields['responseText'].label = 'Текст отклика'

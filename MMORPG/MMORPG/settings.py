@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'django_filters',
     'tinymce',
+    "django_apscheduler",
     'board',
 ]
 
@@ -162,3 +163,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'paste_as_text': True,
     'toolbar': 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | media | image | link | table | emoticons',
 }
+
+SITE_ID = 1
+
+SITE_URL = 'http://localhost:8000'

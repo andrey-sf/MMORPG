@@ -4,9 +4,12 @@ from django.core.mail import send_mail
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, DeleteView, UpdateView
-from .forms import AdForm, ResponseForm, ResponseFilter
+from .filters import ResponseFilter
+from .forms import AdForm, ResponseForm
 from .models import Ad, Response
 from django.contrib import messages
+from django.utils import timezone
+from datetime import timedelta
 
 
 # Create your views here.
@@ -18,7 +21,7 @@ class AdListView(ListView):
     paginate_by = 9
 
 
-class AdDetailView(DetailView):
+class AdDetailView(LoginRequiredMixin, DetailView):
     template_name = 'ad_detail.html'
     queryset = Ad.objects.all()
 
@@ -83,7 +86,7 @@ def respond_to_ad(request, ad_id):
     return render(request, 'response_form.html', {'form': form, 'ad': ad})
 
 
-class PersonRoomView(TemplateView):
+class PersonRoomView(LoginRequiredMixin, TemplateView):
     template_name = 'cabinet.html'
 
     def get_context_data(self, **kwargs):
