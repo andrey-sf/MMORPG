@@ -10,7 +10,7 @@
     <ul>
         {% for ad in ads %}
             <li>
-                <strong><a href="{{ ad.get_absolute_url }}">{{ ad.title }}</a></strong><br>
+                <strong><a href="http://127.0.0.1:8000{{ ad.get_absolute_url }}">{{ ad.title }}</a></strong><br>
                 {{ ad.description|truncatechars:200 }}
             </li>
         {% empty %}
