@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'django_filters',
+    'tinymce',
     'board',
 ]
 
@@ -140,6 +142,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 # ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 DEFAULT_FROM_EMAIL = "admin@admin.ru"  # потому что настроенна почта в консоль
@@ -149,4 +152,13 @@ EMAIL_HOST_USER = ''  # ваше имя пользователя, наприме
 EMAIL_HOST_PASSWORD = ''  # пароль от почты
 EMAIL_USE_SSL = True  # Яндекс использует ssl, подробнее о том, что это, почитайте на Википедии, но включать его здесь обязательно
 
-
+TINYMCE_DEFAULT_CONFIG = {
+    'height': 360,
+    'width': 900,
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 20,
+    'selector': 'textarea',
+    'plugins': 'paste, media, image, link, table, emoticons',
+    'paste_as_text': True,
+    'toolbar': 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | media | image | link | table | emoticons',
+}

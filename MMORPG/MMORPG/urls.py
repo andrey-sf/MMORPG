@@ -27,5 +27,5 @@ urlpatterns = [
     path('', AdListView.as_view(), name='home'),
     path('ad/', include('board.urls')),
     path('cabinet/', PersonRoomView.as_view(), name='cabinet'),
-    path("ckeditor5/", include('django_ckeditor_5.urls'), name="ck_editor_5_upload_file"),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('tinymce/', include('tinymce.urls')),
+]

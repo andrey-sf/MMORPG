@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
+from tinymce.models import HTMLField
 
 
 # Create your models here.
@@ -21,7 +22,7 @@ class Ad(models.Model):
 
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='author')
     title = models.CharField(max_length=200)
-    description = models.TextField()
+    description = HTMLField()
     category = models.CharField(max_length=100, choices=CATEGORIES, default='Танки')
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -1,9 +1,11 @@
+import django_filters
 from django import forms
+
 from .models import Ad, Response
+from tinymce.widgets import TinyMCE
 
 
 class AdForm(forms.ModelForm):
-
     class Meta:
         model = Ad
         fields = ['category', 'title', 'description']
@@ -15,9 +17,7 @@ class AdForm(forms.ModelForm):
             'category': forms.Select(attrs={
                 'class': 'form-control',
             }),
-            'description': forms.Textarea(attrs={
-                'class': 'form-control',
-            }),
+            'description': TinyMCE(attrs={'cols': 80, 'rows': 30}),
         }
         labels = {
             'category': 'Категория',
@@ -38,5 +38,17 @@ class ResponseForm(forms.ModelForm):
         }
 
 
-class ResponseAcceptForm(forms.Form):
-    response_id = forms.IntegerField(widget=forms.HiddenInput())
+class ResponseFilter(django_filters.FilterSet):
+    responseAd = django_filters.ModelChoiceFilter(
+        queryset=Ad.objects.all(),
+        label='Название объявления',
+    )
+
+    is_accepted = django_filters.BooleanFilter(
+        field_name='is_accepted',
+        label='Принят отклик ?',
+    )
+
+    class Meta:
+        model = Response
+        fields = ['responseAd', 'is_accepted']
