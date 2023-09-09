@@ -3,43 +3,66 @@
 Объявления
 {% endblock title %}
 {% block content %}
-<h1>Страница авторизованного пользователя {{ request.user.username }}</h1>
-<hr>
-<h2>Отклики на ваши объявления</h2>
-<form method="get" class="response-filter-form">
-    {{ response_filter.form.as_p }}
-    <button type="submit" class="btn btn-primary">Применить фильтр</button>
-</form>
-<ul class="list-group">
-    {% for response in response_filter.qs %}
-        <li class="list-group-item">
-            <h3><a href="{% url 'board:ad_detail' response.responseAd.id %}">{{ response.responseAd.title }}</a></h3>
-            <p>{{ response.responseText|truncatechars:50 }}</p>
-            <p>Автор отклика: {{ response.responseUser }}</p>
-            <p>Дата создания отклика: {{ response.responseCreated_at|date:'d M Y года в G:i' }}</p>
-            {% if not response.is_accepted %}
-            <a href="{% url 'board:accept_response' response.id %}" class="btn btn-success">Принять отклик</a>
-
-            {% else %}
-            Отклик принят
-            {% endif %}
-            <a href="{% url 'board:delete_response' response.id %}" class="btn btn-danger">Удалить отклик</a>
-        </li>
-    {% empty %}
-        <li class="list-group-item">Пока нет откликов на ваши объявления</li>
-    {% endfor %}
-</ul>
-<h2>Мои объявления</h2>
-<ul class="list-group">
-    {% for ad in request.user.ad_set.all %}
-        <li class="list-group-item">
-            <h3><a href="{% url 'board:ad_detail' ad.id %}">{{ ad.title }}</a></h3>
-            <p>{{ ad.description|truncatechars:50|safe }}</p>
-            <a href="{% url 'board:ad_update' ad.id %}" class="btn btn-success">Изменить объявление</a>
-            <a href="{% url 'board:ad_delete' ad.id %}" class="btn btn-danger">Удалить объявление</a>
-        </li>
-    {% empty %}
-        <li class="list-group-item">Пока нет объявлений</li>
-    {% endfor %}
-</ul>
+<style>
+    .ad-container {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+    .ad-author {
+        font-size: 14px;
+        color: #888;
+    }
+    .ad-description img,
+    .ad-description video {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        margin-top: 10px;
+        max-height: 400px;
+    }
+</style>
+<main>
+    <div class="container mt-4">
+        <h1>Страница авторизованного пользователя {{ request.user.username }}</h1>
+        <hr>
+        <h2>Отклики на ваши объявления</h2>
+        <form method="get" class="response-filter-form">
+            {{ response_filter.form.as_p }}
+            <button type="submit" class="btn btn-primary">Применить фильтр</button>
+        </form>
+        <ul class="list-group">
+            {% for response in response_filter.qs %}
+                <li class="list-group-item">
+                    <h3><a href="{% url 'board:ad_detail' response.responseAd.id %}">{{ response.responseAd.title }}</a></h3>
+                    <p>{{ response.responseText|truncatechars:50 }}</p>
+                    <p>Автор отклика: {{ response.responseUser }}</p>
+                    <p>Дата создания отклика: {{ response.responseCreated_at|date:'d M Y года в G:i' }}</p>
+                    {% if not response.is_accepted %}
+                    <a href="{% url 'board:accept_response' response.id %}" class="btn btn-success">Принять отклик</a>
+                    {% else %}
+                    Отклик принят
+                    {% endif %}
+                    <a href="{% url 'board:delete_response' response.id %}" class="btn btn-danger">Удалить отклик</a>
+                </li>
+            {% empty %}
+                <li class="list-group-item">Пока нет откликов на ваши объявления</li>
+            {% endfor %}
+        </ul>
+        <h2>Мои объявления</h2>
+        <ul class="list-group">
+            {% for ad in request.user.ad_set.all %}
+                <li class="list-group-item">
+                    <h3><a href="{% url 'board:ad_detail' ad.id %}">{{ ad.title }}</a></h3>
+                    <div class="ad-description">{{ ad.description|safe }}</div>
+                    <a href="{% url 'board:ad_update' ad.id %}" class="btn btn-success">Изменить объявление</a>
+                    <a href="{% url 'board:ad_delete' ad.id %}" class="btn btn-danger">Удалить объявление</a>
+                </li>
+            {% empty %}
+                <li class="list-group-item">Пока нет объявлений</li>
+            {% endfor %}
+        </ul>
+    </div>
+</main>
 {% endblock content %}
