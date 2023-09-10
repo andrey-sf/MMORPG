@@ -40,9 +40,3 @@ class ResponseFormFilter(forms.ModelForm):
     class Meta:
         model = Response
         fields = ['responseText', 'responseAd', 'is_accepted']
-
-    def __init__(self, *args, **kwargs):
-        super(ResponseForm, self).__init__(*args, **kwargs)
-        self.fields['responseAd'].label = 'Выберите объявление'
-        self.fields['is_accepted'].label = 'Принят отклик?'
-        self.fields['responseText'].label = 'Текст отклика'

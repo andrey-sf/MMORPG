@@ -8,11 +8,8 @@ from .filters import ResponseFilter
 from .forms import AdForm, ResponseForm
 from .models import Ad, Response
 from django.contrib import messages
-from django.utils import timezone
-from datetime import timedelta
 
 
-# Create your views here.
 class AdListView(ListView):
     model = Ad
     template_name = 'ad_list.html'
@@ -94,8 +91,6 @@ class PersonRoomView(LoginRequiredMixin, TemplateView):
         user = self.request.user
         responses = Response.objects.filter(responseAd__author=user)
         context['responses'] = responses
-
-        # Используйте ResponseFilter для фильтрации откликов
         response_filter = ResponseFilter(self.request.GET, queryset=responses)
         context['response_filter'] = response_filter
 
