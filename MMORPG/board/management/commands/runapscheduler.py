@@ -55,7 +55,7 @@ class Command(BaseCommand):
         scheduler.add_job(
             send_weekly_news,
             trigger=CronTrigger(day_of_week="tue", hour="07", minute="31"),
-            #trigger=CronTrigger(second="*/10"),
+            # trigger=CronTrigger(second="*/10"),
             id="my_job",
             max_instances=1,
             replace_existing=True,

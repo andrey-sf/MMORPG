@@ -42,4 +42,3 @@ class Response(models.Model):
 
     def __str__(self):
         return f"Отклик на объявление '{self.responseAd.title}' от {self.responseUser.username}"
-
